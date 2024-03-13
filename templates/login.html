@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Are You Here?</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    {% include 'header.html' %}
+    
+    <main>
+        <h1 class="title">login</h1>
+        <form class="login" action="">
+            <input class="textbox" type="text" name="username" placeholder="Username">
+            <input class="textbox" type="password" name="password" placeholder="Password">
+            <input class="submit" type="submit" value="login">
+        </form>
+    </main>
+    
+    {% include 'footer.html' %}
+
+    <script src="script.js"></script>
+</body>
+</html>

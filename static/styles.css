@@ -1,0 +1,180 @@
+/* Reset CSS */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Courier Prime", monospace;
+}
+
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+}
+
+header {
+    background: linear-gradient(to bottom, #008441, #000000);
+    color: #fff;
+    /* padding: 20px; */
+    text-align: center;
+    height: 100px;
+}
+
+main {
+    padding: 20px;
+
+}
+
+footer {
+    background-color: #000000;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Gradient Header */
+nav {
+    color: #fff;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    text-align: right;
+    padding-top: 30px;
+    padding-right: 30px;
+    font-size: 22px;
+    margin-bottom: -15px;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+.header-design {
+    display: flex;
+    flex-direction: row;
+}
+#target {
+    flex: 1;
+    height: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+hr {
+    color: #737373;
+    flex: 10;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.title {
+    font-size: 35px;
+    text-align: center;
+    margin-top: 100px;
+    color: #35ce05;
+}
+
+.textbox {
+    border: none;
+    border-radius: 50px;
+    background-color: #333; /* Adjust the color to match the exact shade */
+    color: white; /* If the text should be white */
+    padding: 20px;
+    padding-left: 20px;
+    width: 400px; /* Adjust as needed */
+    outline: none;
+    font-size: 35x;
+    margin-top: 40px;
+}
+
+.submit {
+    border-color: #35ce05;
+    border-width: 2px;
+    border-radius: 30px;
+    background-color: #000000;
+    color: #35ce05;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+.submit:hover {
+    border-color: #35ce05;
+    background-color: #35ce05;
+    color: #000000;
+}
+
+.login {
+    margin-top: 10px;
+    display: flex;
+    display: flex;
+    flex-direction: column; /* Aligns children vertically */
+    align-items: center;     /* Aligns children horizontally */
+}
+
+main {
+    height: 100vh;
+}
+
+
+
+.vertical-line {
+    height: 1000px; /* Adjust to desired height */
+    width: 2px; /* This is the width of the line */
+    background-color: #737373; /* This is the color of the line */
+    margin: 0 auto; /* This centers the line if the parent is also centered */
+}
+
+.menu {
+    width: 100%;
+    margin-top: 100px;
+    display: inline-block; /* Aligns the border tight around the content */
+    color: #0F0;
+    padding-top: -40px;
+    padding-bottom: -40px;
+    display: flex;
+    justify-content: center; /* Aligns items on the line (horizontally) */
+    align-items: center; /* Aligns items in the cross-axis (vertically) */
+    height: 200px; /* Or whatever height you desire */
+}
+  
+.contents {
+    padding-top: -200px;
+    padding-bottom: -200px;
+    width: 1000px;
+    border-left: 1px solid #737373; /* Neon green border */
+}
+
+.menu-category {
+    padding-left: 20px;
+    padding-bottom: 5px; /* Spacing between text and underline */
+    font-size: 20px;
+}
+  
+.menu-list {
+    font-size: 20px;
+    list-style: none; /* Removes default list bullets */
+    padding: 0;
+    margin: 0;
+}
+  
+.menu-list li {
+    margin: 10px 0; /* Spacing between items */
+    padding-left: 20px; /* Indent text */
+    text-indent: -20px; /* Align dashes with the above border */
+    padding-bottom: 0px;
+}
+  
+.menu-list li:before {
+    content: '————';
+    color: #737373;
+    padding-right: 5px; /* Spacing after dash */
+}
