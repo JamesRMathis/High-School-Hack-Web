@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, redirect, request, jsonify
+from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session
 import sqlite3
 
 conn = sqlite3.connect('users.db')
@@ -7,11 +7,13 @@ cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT,
-        password TEXT
+        password TEXT,
+        isMember BOOLEAN
     )
 ''')
 
 app = Flask(__name__)
+app.secret_key = 'abcabcabc'
 
 @app.route('/', methods=['GET'])
 def index():
@@ -32,17 +34,25 @@ def login():
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/processLogin', methods=['POST'])
 def processLogin():
-    username = request.form['username']
-    password = request.form['password']
+    username = request.json['username']
+    password = request.json['password']
+
+    print(username, password)
 
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users')
+    print(cursor.fetchall())
+
     cursor.execute(f'''
         SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
     ''')
     user = cursor.fetchone()
+    print(user)
 
     if user:
+        session['user'] = user[1] + user[3:]
         return jsonify({'status': 'success'})
     else:
         return jsonify({'status': 'failed'})
