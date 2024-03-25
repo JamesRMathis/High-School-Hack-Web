@@ -5,13 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Why Are You Here?</title>
     <link rel="stylesheet" href="static/styles.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.cookie.includes('session=')) {
+                window.location.href = '/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account';
+            }
+            form = document.querySelector('.login');
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const username = form.querySelector('input[name="username"]').value;
+                const password = form.querySelector('input[name="password"]').value;
+                fetch(`/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/processLogin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({username, password})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.href = '/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account';
+                    } else {
+                        alert('Invalid username or password');
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     {% include 'header.html' %}
     
     <main>
         <h1 class="title">login</h1>
-        <form class="login" action="">
+        <form class="login" action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/processLogin">
             <input class="textbox" type="text" name="username" placeholder="Username">
             <input class="textbox" type="password" name="password" placeholder="Password">
             <input class="submit" type="submit" value="login">
