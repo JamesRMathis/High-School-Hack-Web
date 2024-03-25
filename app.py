@@ -46,9 +46,6 @@ def processLogin():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
 
-    cursor.execute('SELECT * FROM users')
-    print(cursor.fetchall())
-
     cursor.execute(f'''
         SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
     ''')
