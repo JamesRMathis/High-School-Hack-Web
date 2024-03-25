@@ -27,6 +27,13 @@ def index_post():
 def mainPage():
     return render_template('index.html')
 
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/getSession')
+def getSession():
+    if 'user' in session:
+        return jsonify({'user': session['user']})
+    else:
+        return jsonify({'user': None})
+
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/login')
 def login():
     return render_template('login.html')
