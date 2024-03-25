@@ -1,16 +1,15 @@
 from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session
 import sqlite3
 
-conn = sqlite3.connect('users.db')
-cursor = conn.cursor()
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT,
-        password TEXT,
-        isMember BOOLEAN
-    )
-''')
+# conn = sqlite3.connect('users.db')
+# cursor = conn.cursor()
+# cursor.execute('''
+#     CREATE TABLE IF NOT EXISTS users (
+#         id INTEGER PRIMARY KEY AUTOINCREMENT,
+#         username TEXT,
+#         password TEXT
+#     )
+# ''')
 
 app = Flask(__name__)
 app.secret_key = 'abcabcabc'
@@ -37,8 +36,6 @@ def processLogin():
     username = request.json['username']
     password = request.json['password']
 
-    print(username, password)
-
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
 
@@ -49,10 +46,9 @@ def processLogin():
         SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
     ''')
     user = cursor.fetchone()
-    print(user)
 
     if user:
-        session['user'] = user[1] + user[3:]
+        session['user'] = user
         return jsonify({'status': 'success'})
     else:
         return jsonify({'status': 'failed'})
