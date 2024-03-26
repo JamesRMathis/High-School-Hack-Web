@@ -6,6 +6,22 @@
     <title>Forum</title>
 </head>
 <body>
-    
+    {% include 'header.html' %}
+
+    <main>
+        <h1 class="title">Forum</h1>
+        <div class="showPosts">
+            <button>Show Posts</button>
+            <div class="posts"></div>
+        </div>
+
+        <div class="makePost">
+            <h2>Make a Post</h2>
+            <form action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost" class="post">
+                <input class="textbox" type="text" name="title" placeholder="Title">
+                <textarea class="textbox" name="content" placeholder="Content"></textarea>
+                <input class="submit" type="submit" value="Post">
+            </form>
+        </div>
 </body>
 </html>
