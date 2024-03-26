@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session
+from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file
 import sqlite3
 
 # conn = sqlite3.connect('users.db')
@@ -26,15 +26,12 @@ def index_post():
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81')
 def mainPage():
     return render_template('index.html')
-  
-@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/login')
-def login():
-    return render_template('login.html')
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a82')
 def haha():
     filename = request.args.get('filename')
     filepath = f"./static/{filename}"  # This is insecure!
+    print(filepath)
     try:
         return send_file(filepath)
     except FileNotFoundError:
@@ -59,9 +56,13 @@ def processLogin():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
 
-    cursor.execute(f'''
-        SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
-    ''')
+    try:
+        cursor.execute(f'''
+            SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
+        ''')
+    except:
+        return jsonify({'status': 'failed'})
+    
     user = cursor.fetchone()
 
     if user:
