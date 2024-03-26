@@ -70,6 +70,10 @@ def processLogin():
         return jsonify({'status': 'success'})
     else:
         return jsonify({'status': 'failed'})
+    
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum')
+def forum():
+    return render_template('forum.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
