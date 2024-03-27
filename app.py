@@ -16,6 +16,10 @@ import os
 app = Flask(__name__)
 app.secret_key = 'abcabcabc'
 
+app.config.update(
+    SESSION_COOKIE_HTTPONLY = False
+)
+
 @app.route('/', methods=['GET'])
 def index():
     return send_from_directory('static', 'gateway.html')
@@ -77,7 +81,7 @@ def processLogin():
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/logout')
 def logout():
     session.pop('user', None)
-    return jsonify({'status': 'success'})
+    return redirect('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81')
     
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum')
 def forum():
@@ -156,6 +160,9 @@ def allPosts():
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/getAllPosts')
 def getAllPosts():
+    if session['user'][1] != 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':   # not admin
+        return jsonify({'status': 'failed', 'message': 'You are not an admin!'})
+
     files = os.listdir()
     files = [f for f in files if f.startswith('forum') and f.endswith('.db')]
 
