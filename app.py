@@ -1,6 +1,7 @@
 from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file
 import sqlite3
 import random
+import os
 
 # conn = sqlite3.connect('users.db')
 # cursor = conn.cursor()
@@ -22,7 +23,7 @@ def index():
 
 @app.route('/', methods=['POST'])
 def index_post():
-    return redirect('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81', filename="index.html")
+    return redirect('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81')
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81')
 def mainPage():
@@ -148,6 +149,27 @@ def makePost():
     conn.commit()
 
     return jsonify({'status': 'success'})
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/allPosts')
+def allPosts():
+    return render_template('allPosts.html')
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/getAllPosts')
+def getAllPosts():
+    files = os.listdir()
+    files = [f for f in files if f.startswith('forum') and f.endswith('.db')]
+
+    allPosts = []
+    for f in files:
+        conn = sqlite3.connect(f)
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT * FROM posts')
+        posts = cursor.fetchall()
+
+        allPosts += posts
+    
+    return jsonify({'status': 'success', 'posts': allPosts})
 
 if __name__ == '__main__':
     app.run(debug=True)
