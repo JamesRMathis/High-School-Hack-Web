@@ -77,15 +77,12 @@ def processLogin():
 def forum():
     return render_template('forum.html')
 
-@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost', methods=['POST'])
-def makePost():
-    userID = session['id']
-    poster = session['user'][1]
-    title = request.json['title']
-    content = request.json['content']
-
-    with open(f'forum{userID}.db', 'w') as f:
-        pass
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/getPosts')
+def getPosts():
+    try:
+        userID = session['id']
+    except:
+        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
     conn = sqlite3.connect(f'forum{userID}.db')
     cursor = conn.cursor()
@@ -94,15 +91,61 @@ def makePost():
         CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             poster TEXT,
-            title TEXT,
+            title TEXT UNIQUE,
             content TEXT
         )
     ''')
 
-    cursor.execute(f'''
-        INSERT INTO posts (poster, title, content) VALUES (?, ?, ?)
-    ''', (poster, title, content))
-    conn.commit()
+    cursor.execute('''
+        SELECT * FROM posts
+    ''')
+
+    posts = cursor.fetchall()
+    print(posts)
+    return jsonify({'status': 'success', 'posts': posts})
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost', methods=['POST'])
+def makePost():
+    try:
+        userID = session['id']
+        poster = session['user'][1]
+        title = request.json['title']
+        content = request.json['content']
+    except:
+        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
+
+    print(f'userID: {userID}, poster: {poster}, title: {title}, content: {content}')
+
+    with open(f'forum{userID}.db', 'w') as f:
+        pass
+
+    conn = sqlite3.connect(f'forum{userID}.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='posts'")
+        table_exists = cursor.fetchone() is not None
+
+        if table_exists:
+            print("Table 'posts' exists.")
+        else:
+            print("Table 'posts' does not exist.")
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS posts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                poster TEXT,
+                title TEXT UNIQUE,
+                content TEXT
+            )
+        ''')
+
+        cursor.execute(f'''
+            INSERT INTO posts (poster, title, content) VALUES (?, ?, ?)
+        ''', (poster, title, content))
+        conn.commit()
+    except:
+        return jsonify({'status': 'failed', 'message': 'Post already exists!'})
 
     return jsonify({'status': 'success'})
 

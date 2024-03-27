@@ -4,6 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            makePostForm = document.querySelector('.makePost')
+
+            makePostForm.addEventListener('submit', e => {
+                e.preventDefault()
+
+                title = e.target.title.value
+                content = e.target.content.value
+
+                fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        content: content
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status == 'success') {
+                        alert('Post created successfully')
+                    } else {
+                        alert(data.message)
+                    }
+                })
+            })
+
+            showPostsButton = document.querySelector('.showPosts button')
+            showPostsDiv = document.querySelector('.showPosts .posts')
+
+            showPostsButton.addEventListener('click', () => {
+                fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/getPosts')
+                .then(response => response.json())
+                .then(data => {
+                    showPostsDiv.innerHTML = ''
+                    data.posts.forEach(post => {
+                        postDiv = document.createElement('div')
+                        postDiv.innerHTML = `
+                            <h3>${post[2]}</h3>
+                            <p>${post[3]}</p>
+                        `
+                        showPostsDiv.appendChild(postDiv)
+                    })
+                })
+            })
+        })
+    </script>
 </head>
 <body>
     {% include 'header.html' %}
@@ -17,7 +68,7 @@
 
         <div class="makePost">
             <h2>Make a Post</h2>
-            <form action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost" class="post">
+            <form class="post">
                 <input class="textbox" type="text" name="title" placeholder="Title">
                 <textarea class="textbox" name="content" placeholder="Content"></textarea>
                 <input class="submit" type="submit" value="Post">
