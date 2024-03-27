@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file
 import sqlite3
+import random
 
 # conn = sqlite3.connect('users.db')
 # cursor = conn.cursor()
@@ -67,6 +68,7 @@ def processLogin():
 
     if user:
         session['user'] = user
+        session['id'] = random.randint(0, 1000000000)
         return jsonify({'status': 'success'})
     else:
         return jsonify({'status': 'failed'})
@@ -74,6 +76,35 @@ def processLogin():
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum')
 def forum():
     return render_template('forum.html')
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost', methods=['POST'])
+def makePost():
+    userID = session['id']
+    poster = session['user'][1]
+    title = request.json['title']
+    content = request.json['content']
+
+    with open(f'forum{userID}.db', 'w') as f:
+        pass
+
+    conn = sqlite3.connect(f'forum{userID}.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS posts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            poster TEXT,
+            title TEXT,
+            content TEXT
+        )
+    ''')
+
+    cursor.execute(f'''
+        INSERT INTO posts (poster, title, content) VALUES (?, ?, ?)
+    ''', (poster, title, content))
+    conn.commit()
+
+    return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run(debug=True)
