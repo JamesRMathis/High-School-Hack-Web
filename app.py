@@ -73,6 +73,11 @@ def processLogin():
     else:
         return jsonify({'status': 'failed'})
     
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/logout')
+def logout():
+    session.pop('user', None)
+    return jsonify({'status': 'success'})
+    
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum')
 def forum():
     return render_template('forum.html')
@@ -99,9 +104,8 @@ def getPosts():
     cursor.execute('''
         SELECT * FROM posts
     ''')
-
     posts = cursor.fetchall()
-    print(posts)
+    
     return jsonify({'status': 'success', 'posts': posts})
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost', methods=['POST'])
@@ -114,22 +118,12 @@ def makePost():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
-    print(f'userID: {userID}, poster: {poster}, title: {title}, content: {content}')
-
-    with open(f'forum{userID}.db', 'w') as f:
-        pass
-
-    conn = sqlite3.connect(f'forum{userID}.db')
-    cursor = conn.cursor()
-
     try:
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='posts'")
-        table_exists = cursor.fetchone() is not None
-
-        if table_exists:
-            print("Table 'posts' exists.")
-        else:
-            print("Table 'posts' does not exist.")
+        with open(f'forum{userID}.db', 'r') as f:
+            pass
+    except FileNotFoundError:
+        conn = sqlite3.connect(f'forum{userID}.db')
+        cursor = conn.cursor()
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS posts (
@@ -140,12 +134,18 @@ def makePost():
             )
         ''')
 
-        cursor.execute(f'''
-            INSERT INTO posts (poster, title, content) VALUES (?, ?, ?)
-        ''', (poster, title, content))
-        conn.commit()
-    except:
+    conn = sqlite3.connect(f'forum{userID}.db')
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM posts WHERE title = ?', (title,))
+    isUniqueTitle = cursor.fetchone() == None
+    if not isUniqueTitle:
         return jsonify({'status': 'failed', 'message': 'Post already exists!'})
+
+    cursor.execute(f'''
+        INSERT INTO posts (poster, title, content) VALUES (?, ?, ?)
+    ''', (poster, title, content))
+    conn.commit()
 
     return jsonify({'status': 'success'})
 
