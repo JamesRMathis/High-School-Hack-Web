@@ -13,23 +13,38 @@
         <h1 class="title">flag{secret_site}</h1>
         <div class="menu">
             <div class="contents">
-                <h2 class="menu-category">Weapons</h2>
-                <ul class="menu-list">
-                    <li>$1,000,000 - Nuclear Bomb</li>
-                    <li>$1,000,000 - Missile</li>
-                    <li>$1,000,000 - Death Star</li>
-                </ul>
-                <h2 class="menu-category">Cyberware</h2>
-                <ul class="menu-list">
-                    <li>$1,000,000 - Hacker Bot</li>
-                    <li>$1,000,000 - James Mathis</li>
-                </ul>
             </div>
         </div>
     </main>
     
     {% include 'footer.html' %}
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/getItems')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let user = 'test';
+                const items = document.querySelectorAll('.contents');
+                Object.entries(data).forEach(([key, value]) => {
+                    console.log(key);
+                    const catagory = document.createElement('h2');
+                    catagory.className = 'menu-category';
+                    catagory.textContent = key;
+                    items[0].appendChild(catagory);
+                    const menu = document.createElement('ul');
+                    menu.className = 'menu-list';
+                    Object.entries(value).forEach(([item, itemList]) => {
+                        console.log(item);
+                        const paragraph = document.createElement('li');
+                        paragraph.textContent = `\$${itemList[0]} ${item}`;
+                        menu.appendChild(paragraph);
+                    });
+                    items[0].appendChild(menu);
+                });
+            })
+        })
+    </script>
 </body>
 </html>

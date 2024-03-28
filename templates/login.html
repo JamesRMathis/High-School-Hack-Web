@@ -8,6 +8,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            if (document.cookie.includes('session=')) {
+                window.location.href = '/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account';
+            }
             form = document.querySelector('.login');
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
