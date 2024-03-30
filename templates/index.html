@@ -13,6 +13,14 @@
         <h1 class="title">flag{secret_site}</h1>
         <div class="menu">
             <div class="contents">
+            {% if member %}
+                <h2 class="menu-category">Menu</h2>
+                <ul class="menu-list">
+                    <li>$100000 Intergalactic Blaster</li>
+                    <li>$123456789Lasgun</li>
+                    <li>$30800 Stary Soda</li>
+                </ul>
+            {% endif %}
             </div>
         </div>
     </main>
@@ -21,7 +29,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('/getItems')
+            fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/getItems')
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -35,10 +43,10 @@
                     items[0].appendChild(catagory);
                     const menu = document.createElement('ul');
                     menu.className = 'menu-list';
-                    Object.entries(value).forEach(([item, itemList]) => {
+                    Object.entries(value).forEach(([item, price]) => {
                         console.log(item);
                         const paragraph = document.createElement('li');
-                        paragraph.textContent = `\$${itemList[0]} ${item}`;
+                        paragraph.textContent = `\$${price} ${item}`;
                         menu.appendChild(paragraph);
                     });
                     items[0].appendChild(menu);

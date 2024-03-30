@@ -6,7 +6,7 @@
     <title>Why Are You Here?</title>
     <link rel="stylesheet" href="/static/styles.css">
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (document.cookie.includes('session=')) {
                 window.location.href = '/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account';
@@ -33,28 +33,27 @@
                 });
             });
         });
-    </script>
+    </script> -->
 </head>
 <body>
     {% include 'header.html' %}
-    
     <main>
-        <h1 class="title">Welcome</h1>
+        <h1 class="title"></h1>
         <div class="new-item">
-            <form class="new-item" action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/addItem">
-                <input class="textbox" type="text" name="new-item" placeholder="New Item">
-                <input class="textbox" type="text" name="price" placeholder="Price">
-                <select name="item-type">
-                    <option value="catagory">Type of Item</option>
+            <form class="new-item-form" action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/addItem" method="post">
+                <h1 class="new-item-title">Add New Item - FLAG{1nj3ctTh3MarsD4t4b4s3}</h1>
+                <input class="itemtextbox" id="new-item" type="text" name="new-item" placeholder="New Item">
+                <input class="itemtextbox" id="price" type="text" name="price" placeholder="Price">
+                <select class="itemdropdown" name="item-type">
+                    <option value="category">Type of Item</option>
                     <option value="weapons">Weapons</option>
                     <option value="bombs">Bombs</option>
                 </select>
-                <input class="submit" type="submit" value="Add Item">
+                <input class="submit" id="list" type="submit" value="Add Item">
             </form>
         </div>
-        <div class="menu">
-            <div class="contents">
-            </div>
+        <div class="button-div">
+            <button class="submit" id="list" onclick="logout()">Logout</button>
         </div>
     </main>
     
@@ -69,44 +68,36 @@
             .then(data => {
                 if (data['user']) {
                     document.querySelector('.title').innerHTML = `
-                    Welcome ${data['user'][1]} flag{sql_injection}
+                    Welcome ${data['user'][1]}
                     `
                 }
             })
-        })
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/getSession')
-            .then(response => response.json())
-            .then(userData => {
-                const user = userData['user'];
-                fetch('/getItems')
+
+            document.querySelector('.new-item-form').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const newItem = document.querySelector('#new-item').value;
+                const price = document.querySelector('#price').value;
+                const itemType = document.querySelector('select[name="item-type"]').value;
+                fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/addItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({new_item: newItem, price: price, item_type: itemType})
+                })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    let user = 'test';
-                    const items = document.querySelectorAll('.contents');
-                    Object.entries(data).forEach(([key, value]) => {
-                        console.log(key);
-                        const catagory = document.createElement('h2');
-                        catagory.className = 'menu-category';
-                        catagory.textContent = key;
-                        items[0].appendChild(catagory);
-                        const menu = document.createElement('ul');
-                        menu.className = 'menu-list';
-                        Object.entries(value).forEach(([item, itemList]) => {
-                            if(itemList[1] === user) {
-                                console.log(item);
-                                const paragraph = document.createElement('li');
-                                paragraph.textContent = `\$${itemList[0]} ${item}`;
-                                menu.appendChild(paragraph);
-                            }
-                        });
-                        items[0].appendChild(menu);
-                    });
+                    if (data['status'] === 'success') {
+                        window.location.href = '/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account';
+                    } else {
+                        alert('Failed to add item');
+                    }
                 })
-            
             })
         })
+        function logout() {
+            window.location.href = '/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/logout';
+        }
     </script>
 </body>
 </html>

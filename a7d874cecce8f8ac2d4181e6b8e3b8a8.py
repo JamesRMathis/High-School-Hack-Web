@@ -31,7 +31,11 @@ def checkBadSession():
 @app.route('/', methods=['GET'])
 def index():
     return send_from_directory('static', 'gateway.html')
-    # return 'Hello, World!'
+    cookie = base64.b64encode("FLAG{St4rG4z3rS3cr3t}".encode())
+    resp = make_response(send_from_directory('static', 'gateway.html'))
+    resp.set_cookie('galacticKey', cookie, max_age=60*60*24*365)  # Example: 1 year
+    resp.headers["Onetwo"] = "FLAG{Buckl3MySh03}"
+    return resp
 
 @app.route('/', methods=['POST'])
 def index_post():
@@ -50,6 +54,10 @@ def haha():
         return send_file(filepath)
     except FileNotFoundError:
         return "File not found", 404
+
+@app.route("/gateway")
+def gateway():
+    return jsonify({"url":"rocket.jpg","title":"Galactic Explorers' Rocket Compendium","name-1":"Arnav Mathis","name-2":"James Karekar","flag":"FLAG{UF0rG0tTh3D4t4}"})
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/getSession')
 def getSession():
@@ -187,19 +195,21 @@ def getAllPosts():
 def account():
     return render_template('account.html')
 
-@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/postItem', methods=['POST'])
-def addItem():
-    if not checkBadSession():
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/addItem', methods=['POST'])
+def addItem():
+    # if not checkBadSession():
+    #     return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
+
+    print(request.json['item_type'])
     try:
         userID = session['id']
-        category = request.json['category']
-        name = request.json['name']
+        category = request.json['item_type']
+        name = request.json['new_item']
         price = request.json['price']
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
-    
+
     conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
@@ -233,14 +243,6 @@ def addItem():
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/getItems')
 def getItems():
-    if not checkBadSession():
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
-
-    try:
-        userID = session['id']
-    except:
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
-
     conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
@@ -259,8 +261,8 @@ def getItems():
                 allItems[category] = jsonObj
             else:
                 allItems[category].update(jsonObj)
-    
-    return jsonify({'status': 'success', 'items': allItems})
+                
+    return jsonify(allItems)
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel')
 def adminPanel():

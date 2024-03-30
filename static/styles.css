@@ -1,6 +1,78 @@
 /* Reset CSS */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+.new-item-form{
+    background: #191919;
+    width: 50%;
+    height: 40%;
+} 
+
+#new-item{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 20px;
+}
+
+#price{
+    margin-left: 5%;
+    font-size: 17px;
+}
+
+.itemdropdown {
+    border: none;
+    border-radius: 10px;
+    background-color: #333; /* Adjust the color to match the exact shade */
+    color: rgb(181, 181, 181); /* If the text should be white */
+    padding: 10px;
+    padding-left: 20px;
+    /* width: 100%; Adjust as needed */
+    outline: none;
+    font-size: 17px;
+    margin-top: 40px;
+}
+
+#list {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+}
+
+.new-item-title {
+    width: 90%;
+    margin-left: 5%;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 30px;
+    color: #35ce05;
+}
+
+.button-div {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 40px; */
+}
+
+.new-item {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itemtextbox {
+    border: none;
+    border-radius: 10px;
+    background-color: #333; /* Adjust the color to match the exact shade */
+    color: white; /* If the text should be white */
+    padding: 10px;
+    padding-left: 20px;
+    /* width: 100%; Adjust as needed */
+    outline: none;
+    font-size: 45x;
+    margin-top: 40px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +96,8 @@ header {
 
 main {
     padding: 20px;
-
+    min-height: 100vh;
+    padding-bottom: 100px;
 }
 
 footer {
@@ -49,6 +122,15 @@ nav ul {
     margin-bottom: -15px;
 }
 
+.menu-category:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+.menu-list:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
 nav ul li {
     display: inline;
     margin-right: 10px;
@@ -63,6 +145,15 @@ nav ul li a {
     display: flex;
     flex-direction: row;
 }
+
+.showPosts {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
 #target {
     flex: 1;
     height: 100px;
@@ -120,10 +211,6 @@ hr {
     align-items: center;     /* Aligns children horizontally */
 }
 
-main {
-    height: 100vh;
-}
-
 
 
 .vertical-line {
@@ -143,7 +230,7 @@ main {
     display: flex;
     justify-content: center; /* Aligns items on the line (horizontally) */
     align-items: center; /* Aligns items in the cross-axis (vertically) */
-    height: 200px; /* Or whatever height you desire */
+    /* height: 200px; Or whatever height you desire */
 }
   
 .contents {

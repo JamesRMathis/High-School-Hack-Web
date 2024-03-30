@@ -5,66 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
     <link rel="stylesheet" href="/static/styles.css">
-
-    <style>
-        .parent {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-
-        .showPosts, .makePost {
-            width: 45%;
-            padding: 10px;
-            /* background-color: #333; */
-            /* border-radius: 10px; */
-        }
-
-        .showPosts button, .makePost input[type="submit"] {
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-
-        .posts h3 {
-            color: #35ce05;
-        }
-
-        .posts p {
-            color: #fff;
-        }
-
-        .posts .byline {
-            color: #999;
-            font-size: 0.8em;
-        }
-
-        .makePost form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .fields {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .fields textarea {
-            resize: vertical;
-        }
-
-        .makePost h2 {
-            text-align: center;
-            color: #35ce05;
-        }
-
-        .submit {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             makePostForm = document.querySelector('.makePost')
@@ -122,23 +62,16 @@
 
     <main>
         <h1 class="title">Forum</h1>
-        
-        <div class="parent">
-            <div class="showPosts">
-                <button class="submit">Show Posts</button>
-                <div class="posts"></div>
-            </div>
-
-            <div class="makePost">
-                <h2>Make a Post</h2>
-                <form class="post">
-                    <div class="fields">
-                        <input class="textbox" type="text" name="title" placeholder="Title">
-                        <textarea class="textbox" name="content" placeholder="Content"></textarea>
-                    </div>
-                    <input class="submit" type="submit" value="Post">
-                </form>
-            </div>
+        <div class="showPosts">
+            <button class="submit">Show Posts</button>
+        </div>
+        <div class="new-item">
+            <form class="new-item-form">
+                <h2 class="new-item-title">Make a Post</h2>
+                <input class="itemtextbox" id="new-item" style="max-width: 90%; min-width: 90%;" type="text" name="title" placeholder="Title">
+                <textarea class="itemtextbox" id="new-item" name="content" placeholder="Content"></textarea>
+                <input class="submit" style="margin-left: 5%; margin-bottom: 50px;" type="submit" value="Post">
+            </form>
         </div>
 </body>
 </html>
