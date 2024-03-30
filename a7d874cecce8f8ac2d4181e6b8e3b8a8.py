@@ -105,8 +105,6 @@ def forum():
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/getPosts')
 def getPosts():
-    if not checkBadSession():
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
     try:
         userID = session['id']
@@ -125,17 +123,35 @@ def getPosts():
         )
     ''')
 
+    # Post 1
+    cursor.execute(f"INSERT INTO posts{userID} (poster, title, content) VALUES (?, ?, ?)", ("R0gu3Scr1pt3r", "cracking the cosmos let's chat", "hey everyone just got back from a dive into the cosmic code let's brainstorm and share tips on hacking the universe"))
+
+    # Post 2
+    cursor.execute(f"INSERT INTO posts{userID} (poster, title, content) VALUES (?, ?, ?)", ("cyb3rv0rt3x", "decrypting deep space signals", "greetings hackers found some strange signals from deep space let's collaborate and decode them together"))
+
+    # Post 3
+    cursor.execute(f"INSERT INTO posts{userID} (poster, title, content) VALUES (?, ?, ?)", ("t3chtr0ubl3mak3r", "interstellar communication what's next", "yo hackers let's brainstorm the future of space comms is there a way to hack faster-than-light messaging let's discuss"))
+
+    # Post 4
+    cursor.execute(f"INSERT INTO posts{userID} (poster, title, content) VALUES (?, ?, ?)", ("d4rknetd3m0n", "cosmic conspiracies unveiled", "sup hackers detected some fishy stuff in the space data let's dig deeper and uncover the truth behind cosmic cover-ups"))
+
+    # Post 5
+    cursor.execute(f"INSERT INTO posts{userID} (poster, title, content) VALUES (?, ?, ?)", ("ph4ntomphr34k", "hacking space tech dive in", "hey crew experimenting with space tech hacks join me in the lab and let's push the boundaries of space technology together"))
+
+    conn.commit()
+
     cursor.execute(f'''
         SELECT * FROM posts{userID}
     ''')
     posts = cursor.fetchall()
+    print(posts)
     
     return jsonify({'status': 'success', 'posts': posts})
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/forum/makePost', methods=['POST'])
 def makePost():
-    if not checkBadSession():
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
+    # if not checkBadSession():
+    #     return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
     try:
         userID = session['id']

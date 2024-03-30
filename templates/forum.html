@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/styles.css">
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            makePostForm = document.querySelector('.makePost')
+            makePostForm = document.querySelector('.new-item-form')
 
             makePostForm.addEventListener('submit', e => {
                 e.preventDefault()
@@ -43,7 +43,7 @@
                 .then(response => response.json())
                 .then(data => {
                     showPostsDiv.innerHTML = ''
-                    data.posts.forEach(post => {
+                    data['posts'].forEach(post => {
                         postDiv = document.createElement('div')
                         postDiv.innerHTML = `
                             <h3>${post[2]}</h3>
@@ -56,6 +56,42 @@
             })
         })
     </script>
+
+    <style>
+        .showPosts {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .posts {
+            display: flex;
+            flex-direction: column;
+            /* justify-content: ; */
+            align-items: flex-start;
+
+            margin-left: 30px;
+        }
+
+
+
+        .posts h3 {
+            margin-top: 20px;
+            color: #35ce05;
+            text-align: left;
+        }
+
+        .posts p {
+            margin-top: 10px;
+            color: #CCCCCC;
+            text-align: left;
+        }
+
+        .byline {
+            color: #888888 !important;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     {% include 'header.html' %}
@@ -64,6 +100,8 @@
         <h1 class="title">Forum</h1>
         <div class="showPosts">
             <button class="submit">Show Posts</button>
+
+            <div class="posts"></div>
         </div>
         <div class="new-item">
             <form class="new-item-form">
