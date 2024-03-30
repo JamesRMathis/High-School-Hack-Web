@@ -47,6 +47,12 @@
     color: #35ce05;
 }
 
+.button-div {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 40px; */
+}
+
 .new-item {
     display: flex;
     justify-content: center;

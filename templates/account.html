@@ -52,6 +52,9 @@
                 <input class="submit" id="list" type="submit" value="Add Item">
             </form>
         </div>
+        <div class="button-div">
+            <button class="submit" id="list" onclick="logout()">Logout</button>
+        </div>
     </main>
     
     
@@ -70,6 +73,9 @@
                 }
             })
         })
+        function logout() {
+            window.location.href = '/logout';
+        }
     </script>
 </body>
 </html>
