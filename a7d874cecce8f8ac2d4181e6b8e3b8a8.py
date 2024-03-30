@@ -1,8 +1,9 @@
-from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file
+from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file, make_response
 import sqlite3
 import random
 import json
 import os
+import base64
 
 # conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
 # cursor = conn.cursor()
@@ -30,7 +31,6 @@ def checkBadSession():
 
 @app.route('/', methods=['GET'])
 def index():
-    return send_from_directory('static', 'gateway.html')
     cookie = base64.b64encode("FLAG{St4rG4z3rS3cr3t}".encode())
     resp = make_response(send_from_directory('static', 'gateway.html'))
     resp.set_cookie('galacticKey', cookie, max_age=60*60*24*365)  # Example: 1 year
