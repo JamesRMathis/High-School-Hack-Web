@@ -33,7 +33,7 @@ def checkBadSession():
 def index():
     cookie = base64.b64encode("FLAG{St4rG4z3rS3cr3t}".encode())
     resp = make_response(send_from_directory('static', 'gateway.html'))
-    resp.set_cookie('cosmicKey', cookie, max_age=60*60*24*365)  # Example: 1 year
+    resp.set_cookie('galacticKey', cookie, max_age=60*60*24*365)  # Example: 1 year
     resp.headers["Onetwo"] = "FLAG{Buckl3MySh03}"
     return resp
 
