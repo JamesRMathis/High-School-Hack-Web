@@ -1,6 +1,12 @@
 /* Reset CSS */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+.new-item{
+    background: #191919;
+    width: 50%;
+    margin: 25%;
+} 
+
 * {
     margin: 0;
     padding: 0;

@@ -39,8 +39,9 @@
     {% include 'header.html' %}
     
     <main>
-        <h1 class="title">Welcome</h1>
+        <h1 class="title"></h1>
         <div class="new-item">
+            <h1 class="title"></h1>
             <form class="new-item" action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/addItem">
                 <input class="textbox" type="text" name="new-item" placeholder="New Item">
                 <input class="textbox" type="text" name="price" placeholder="Price">
@@ -69,42 +70,9 @@
             .then(data => {
                 if (data['user']) {
                     document.querySelector('.title').innerHTML = `
-                    Welcome ${data['user'][1]} flag{sql_injection}
+                    Welcome ${data['user'][1]} FLAG{1nj3ctTh3MarsD4t4b4s3}
                     `
                 }
-            })
-        })
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/getSession')
-            .then(response => response.json())
-            .then(userData => {
-                const user = userData['user'];
-                fetch('/getItems')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    let user = 'test';
-                    const items = document.querySelectorAll('.contents');
-                    Object.entries(data).forEach(([key, value]) => {
-                        console.log(key);
-                        const catagory = document.createElement('h2');
-                        catagory.className = 'menu-category';
-                        catagory.textContent = key;
-                        items[0].appendChild(catagory);
-                        const menu = document.createElement('ul');
-                        menu.className = 'menu-list';
-                        Object.entries(value).forEach(([item, itemList]) => {
-                            if(itemList[1] === user) {
-                                console.log(item);
-                                const paragraph = document.createElement('li');
-                                paragraph.textContent = `\$${itemList[0]} ${item}`;
-                                menu.appendChild(paragraph);
-                            }
-                        });
-                        items[0].appendChild(menu);
-                    });
-                })
-            
             })
         })
     </script>

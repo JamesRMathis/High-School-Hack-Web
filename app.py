@@ -1,6 +1,7 @@
-from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file
+from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file, make_response
 import sqlite3
 import json
+import base64
 
 # conn = sqlite3.connect('users.db')
 # cursor = conn.cursor()
@@ -17,8 +18,11 @@ app.secret_key = 'abcabcabc'
 
 @app.route('/', methods=['GET'])
 def index():
-    return send_from_directory('static', 'gateway.html')
-    # return 'Hello, World!'
+    cookie = base64.b64encode("FLAG{St4rG4z3rS3cr3t}".encode())
+    resp = make_response(send_from_directory('static', 'gateway.html'))
+    resp.set_cookie('cosmicKey', cookie, max_age=60*60*24*365)  # Example: 1 year
+    resp.headers["Onetwo"] = "FLAG{Buckl3MySh03}"
+    return resp
 
 @app.route('/', methods=['POST'])
 def index_post():
@@ -37,6 +41,11 @@ def haha():
         return send_file(filepath)
     except FileNotFoundError:
         return "File not found", 404
+    
+@app.route("/gateway")
+def gateway():
+    return jsonify({"url":"rocket.jpg","title":"Galactic Explorers' Rocket Compendium","name-1":"Arnav Mathis","name-2":"James Karekar","flag":"FLAG{UF0rG0tTh3D4t4}"})
+
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/getSession')
 def getSession():
@@ -54,6 +63,7 @@ def processLogin():
     username = request.json['username']
     password = request.json['password']
 
+
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
 
@@ -61,6 +71,7 @@ def processLogin():
         cursor.execute(f'''
             SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
         ''')
+        
     except:
         return jsonify({'status': 'failed'})
     
@@ -68,6 +79,7 @@ def processLogin():
 
     if user:
         session['user'] = user
+        session['gss-member'] = False
         return jsonify({'status': 'success'})
     else:
         return jsonify({'status': 'failed'})
