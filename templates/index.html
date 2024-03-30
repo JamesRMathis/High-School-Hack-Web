@@ -21,7 +21,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('/getItems')
+            fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/getItems')
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -36,9 +36,10 @@
                     const menu = document.createElement('ul');
                     menu.className = 'menu-list';
                     Object.entries(value).forEach(([item, itemList]) => {
+                        console.log('itemList', itemList)
                         console.log(item);
                         const paragraph = document.createElement('li');
-                        paragraph.textContent = `\$${itemList[0]} ${item}`;
+                        paragraph.textContent = `\$${itemList} ${item}`;
                         menu.appendChild(paragraph);
                     });
                     items[0].appendChild(menu);

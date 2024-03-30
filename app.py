@@ -199,15 +199,16 @@ def getAllPosts():
 def account():
     return render_template('account.html')
 
-@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/postItem', methods=['POST'])
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/addItem', methods=['POST'])
 def addItem():
-    if not checkBadSession():
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
+    # if not checkBadSession():
+    #     return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
+    print(request.json['item_type'])
     try:
         userID = session['id']
-        category = request.json['category']
-        name = request.json['name']
+        category = request.json['item_type']
+        name = request.json['new_item']
         price = request.json['price']
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
@@ -245,14 +246,6 @@ def addItem():
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/getItems')
 def getItems():
-    if not checkBadSession():
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
-
-    try:
-        userID = session['id']
-    except:
-        return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
-
     conn = sqlite3.connect('userData.db')
     cursor = conn.cursor()
 
@@ -272,7 +265,7 @@ def getItems():
             else:
                 allItems[category].update(jsonObj)
     
-    return jsonify({'status': 'success', 'items': allItems})
+    return jsonify(allItems)
 
 
 if __name__ == '__main__':
