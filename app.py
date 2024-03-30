@@ -4,7 +4,7 @@ import random
 import json
 import os
 
-# conn = sqlite3.connect('users.db')
+# conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
 # cursor = conn.cursor()
 # cursor.execute('''
 #     CREATE TABLE IF NOT EXISTS users (
@@ -19,7 +19,7 @@ app.secret_key = 'abcabcabc'
 
 def checkBadSession():
     if 'user' in session:
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
         cursor = conn.cursor()
         cursor.execute(f'''
             SELECT * FROM users WHERE username = ? AND password = ?
@@ -67,7 +67,7 @@ def processLogin():
     username = request.json['username']
     password = request.json['password']
 
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
     cursor = conn.cursor()
 
     try:
@@ -105,7 +105,7 @@ def getPosts():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -137,7 +137,7 @@ def makePost():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -170,7 +170,7 @@ def getAllPosts():
     if session['user'][1] != 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':   # not admin
         return jsonify({'status': 'failed', 'message': 'You are not an admin!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
@@ -200,7 +200,7 @@ def addItem():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
     
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -241,7 +241,7 @@ def getItems():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     # every user should see all items across all tables
@@ -270,7 +270,7 @@ def adminPanel():
     
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/getUsers')
 def getUsers():
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM users')
     users = cursor.fetchall()
@@ -280,13 +280,13 @@ def getUsers():
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/removeUser', methods=['POST']) 
 def removeUser():
     username = request.json['username']
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
     cursor = conn.cursor()
     cursor.execute('DELETE FROM users WHERE username = ?', (username,))
     conn.commit()
 
-    if username == 'TODO: ADD USER TO DELETE':
-        return jsonify({'status': 'successFlag', 'flag': 'GOOD_RIDDANCE'})
+    if username == 'Dr3adRavag3r':
+        return jsonify({'status': 'successFlag', 'flag': 'FLAG{G00D_R1DD4NC3'})
     elif username == 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':
         return jsonify({'status': 'failed', 'message': 'You cannot delete the admin!'})
 
