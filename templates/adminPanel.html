@@ -23,7 +23,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data['status'] === 'success') {
-                            removeUser(username);
+                            removeUser(username)
                         } else {
                             alert('Incorrect password');
                         }
@@ -43,9 +43,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data['status'] === 'success') {
-                    window.location.reload();
+                    window.location.reload()
+                } else if (data['status'] === 'successFlag') {
+                    alert(data['flag'])
                 } else {
-                    alert('Failed to remove user');
+                    alert(data['message']);
                 }
             })
         }
@@ -59,8 +61,8 @@
                 users.forEach(user => {
                     const li = document.createElement('li');
                     li.innerHTML = `
-                        <span>${user['username']}</span>
-                        <button onclick="getConfirmation('${user['username']}')">Remove</button>
+                        <span>${user}</span>
+                        <button onclick="getConfirmation('${user}')">Remove</button>
                     `
                     usersList.appendChild(li)
                 })
@@ -72,7 +74,7 @@
 <body>
     <!-- make an admin panel where an admin can see all current users and remove them -->
     <h1>Admin Panel</h1>
-    <div class="confirmation">
+    <div class="confirmation" style="display: none;">
         <p>Type your admin password to remove this user</p>
         <p>Username: <span id="username"></span></p>
         <input type="password" name="password">

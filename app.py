@@ -266,6 +266,7 @@ def getItems():
 def adminPanel():
     if session['user'][1] != 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':
         return 'You are not an admin!'
+    return render_template('adminPanel.html')
     
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/getUsers')
 def getUsers():
@@ -273,7 +274,8 @@ def getUsers():
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM users')
     users = cursor.fetchall()
-    return jsonify({'status': 'success', 'users': users})
+    usernames = [user[1] for user in users]
+    return jsonify({'status': 'success', 'users': usernames})
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/removeUser', methods=['POST']) 
 def removeUser():
@@ -282,6 +284,13 @@ def removeUser():
     cursor = conn.cursor()
     cursor.execute('DELETE FROM users WHERE username = ?', (username,))
     conn.commit()
+
+    if username == 'TODO: ADD USER TO DELETE':
+        return jsonify({'status': 'successFlag', 'flag': 'GOOD_RIDDANCE'})
+    elif username == 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':
+        return jsonify({'status': 'failed', 'message': 'You cannot delete the admin!'})
+
+
     return jsonify({'status': 'success'})
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/confirmPassword', methods=['POST'])
