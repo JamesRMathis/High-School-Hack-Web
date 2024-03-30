@@ -262,6 +262,35 @@ def getItems():
     
     return jsonify({'status': 'success', 'items': allItems})
 
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel')
+def adminPanel():
+    if session['user'][1] != 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':
+        return 'You are not an admin!'
+    
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/getUsers')
+def getUsers():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users')
+    users = cursor.fetchall()
+    return jsonify({'status': 'success', 'users': users})
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/removeUser', methods=['POST']) 
+def removeUser():
+    username = request.json['username']
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM users WHERE username = ?', (username,))
+    conn.commit()
+    return jsonify({'status': 'success'})
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/confirmPassword', methods=['POST'])
+def confirmPassword():
+    password = request.json['password']
+    if password == 'FLAG{DECODING_THE_COOKIE_AGAIN???}':
+        return jsonify({'status': 'success'})
+    else:
+        return jsonify({'status': 'failed'})
 
 if __name__ == '__main__':
     app.run(debug=True)

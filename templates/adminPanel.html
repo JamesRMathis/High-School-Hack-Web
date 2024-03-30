@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+
+    <script>
+        function getConfirmation(username) {
+            const confirmation = document.querySelector('.confirmation');
+            confirmation.style.display = 'block';
+            document.querySelector('#username').innerText = username;
+            const password = confirmation.querySelector('input[name="password"]');
+            password.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    fetch(`/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/confirmPassword`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({password: password.value})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data['status'] === 'success') {
+                            removeUser(username);
+                        } else {
+                            alert('Incorrect password');
+                        }
+                    })
+                }
+            })
+        }
+
+        function removeUser(username) {
+            fetch(`/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/removeUser`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username: username})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data['status'] === 'success') {
+                    window.location.reload();
+                } else {
+                    alert('Failed to remove user');
+                }
+            })
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/getUsers')
+            .then(response => response.json())
+            .then(data => {
+                const users = data['users'];
+                const usersList = document.querySelector('#users ul');
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${user['username']}</span>
+                        <button onclick="getConfirmation('${user['username']}')">Remove</button>
+                    `
+                    usersList.appendChild(li)
+                })
+            })
+        })
+
+    </script>
+</head>
+<body>
+    <!-- make an admin panel where an admin can see all current users and remove them -->
+    <h1>Admin Panel</h1>
+    <div class="confirmation">
+        <p>Type your admin password to remove this user</p>
+        <p>Username: <span id="username"></span></p>
+        <input type="password" name="password">
+    </div>
+
+    <div id="users">
+        <h2>Users</h2>
+        <ul>
+            <!-- fetch all users and display them here -->
+        </ul>
+    </div>
+</body>
+</html>
