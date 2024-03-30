@@ -35,11 +35,10 @@
                     items[0].appendChild(catagory);
                     const menu = document.createElement('ul');
                     menu.className = 'menu-list';
-                    Object.entries(value).forEach(([item, itemList]) => {
-                        console.log('itemList', itemList)
+                    Object.entries(value).forEach(([item, price]) => {
                         console.log(item);
                         const paragraph = document.createElement('li');
-                        paragraph.textContent = `\$${itemList} ${item}`;
+                        paragraph.textContent = `\$${price} ${item}`;
                         menu.appendChild(paragraph);
                     });
                     items[0].appendChild(menu);
