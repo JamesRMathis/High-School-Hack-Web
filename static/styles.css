@@ -145,6 +145,15 @@ nav ul li a {
     display: flex;
     flex-direction: row;
 }
+
+.showPosts {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
 #target {
     flex: 1;
     height: 100px;
