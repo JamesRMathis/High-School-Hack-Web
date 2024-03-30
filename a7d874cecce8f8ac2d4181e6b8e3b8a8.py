@@ -1,11 +1,10 @@
-from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file, make_response
+from flask import Flask, render_template, send_from_directory, redirect, request, jsonify, session, send_file
 import sqlite3
 import random
 import json
-import base64
 import os
 
-# conn = sqlite3.connect('users.db')
+# conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
 # cursor = conn.cursor()
 # cursor.execute('''
 #     CREATE TABLE IF NOT EXISTS users (
@@ -20,7 +19,7 @@ app.secret_key = 'abcabcabc'
 
 def checkBadSession():
     if 'user' in session:
-        conn = sqlite3.connect('users.db')
+        conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
         cursor = conn.cursor()
         cursor.execute(f'''
             SELECT * FROM users WHERE username = ? AND password = ?
@@ -31,6 +30,7 @@ def checkBadSession():
 
 @app.route('/', methods=['GET'])
 def index():
+    return send_from_directory('static', 'gateway.html')
     cookie = base64.b64encode("FLAG{St4rG4z3rS3cr3t}".encode())
     resp = make_response(send_from_directory('static', 'gateway.html'))
     resp.set_cookie('galacticKey', cookie, max_age=60*60*24*365)  # Example: 1 year
@@ -54,11 +54,10 @@ def haha():
         return send_file(filepath)
     except FileNotFoundError:
         return "File not found", 404
-    
+
 @app.route("/gateway")
 def gateway():
     return jsonify({"url":"rocket.jpg","title":"Galactic Explorers' Rocket Compendium","name-1":"Arnav Mathis","name-2":"James Karekar","flag":"FLAG{UF0rG0tTh3D4t4}"})
-
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/getSession')
 def getSession():
@@ -76,15 +75,13 @@ def processLogin():
     username = request.json['username']
     password = request.json['password']
 
-
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
     cursor = conn.cursor()
 
     try:
         cursor.execute(f'''
             SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
         ''')
-        
     except:
         return jsonify({'status': 'failed'})
     
@@ -116,7 +113,7 @@ def getPosts():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -148,7 +145,7 @@ def makePost():
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -181,7 +178,7 @@ def getAllPosts():
     if session['user'][1] != 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':   # not admin
         return jsonify({'status': 'failed', 'message': 'You are not an admin!'})
 
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
@@ -198,6 +195,7 @@ def getAllPosts():
 def account():
     return render_template('account.html')
 
+
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/addItem', methods=['POST'])
 def addItem():
     # if not checkBadSession():
@@ -211,8 +209,8 @@ def addItem():
         price = request.json['price']
     except:
         return jsonify({'status': 'failed', 'message': 'You are not logged in!'})
-    
-    conn = sqlite3.connect('userData.db')
+
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     cursor.execute(f'''
@@ -245,7 +243,7 @@ def addItem():
 
 @app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/account/getItems')
 def getItems():
-    conn = sqlite3.connect('userData.db')
+    conn = sqlite3.connect('userData0aac4e6a54c170b06e2bd3848d2b735e.db')
     cursor = conn.cursor()
 
     # every user should see all items across all tables
@@ -263,9 +261,47 @@ def getItems():
                 allItems[category] = jsonObj
             else:
                 allItems[category].update(jsonObj)
-    
+                
     return jsonify(allItems)
 
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel')
+def adminPanel():
+    if session['user'][1] != 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':
+        return 'You are not an admin!'
+    return render_template('adminPanel.html')
+    
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/getUsers')
+def getUsers():
+    conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users')
+    users = cursor.fetchall()
+    usernames = [user[1] for user in users]
+    return jsonify({'status': 'success', 'users': usernames})
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/removeUser', methods=['POST']) 
+def removeUser():
+    username = request.json['username']
+    conn = sqlite3.connect('users81f179353ce9b08a3261d13b80e2cac7.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM users WHERE username = ?', (username,))
+    conn.commit()
+
+    if username == 'Dr3adRavag3r':
+        return jsonify({'status': 'successFlag', 'flag': 'FLAG{G00D_R1DD4NC3'})
+    elif username == 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892':
+        return jsonify({'status': 'failed', 'message': 'You cannot delete the admin!'})
+
+
+    return jsonify({'status': 'success'})
+
+@app.route('/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/adminPanel/confirmPassword', methods=['POST'])
+def confirmPassword():
+    password = request.json['password']
+    if password == 'FLAG{DECODING_THE_COOKIE_AGAIN???}':
+        return jsonify({'status': 'success'})
+    else:
+        return jsonify({'status': 'failed'})
 
 if __name__ == '__main__':
     app.run(debug=True)
