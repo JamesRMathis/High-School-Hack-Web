@@ -92,7 +92,6 @@ def processLogin():
 
     if user:
         session['user'] = user
-        session['gss-member'] = False
         session['id'] = random.randint(0, 1000000000)
         return jsonify({'status': 'success'})
     else:

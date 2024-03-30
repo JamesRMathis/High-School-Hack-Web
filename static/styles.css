@@ -96,6 +96,8 @@ header {
 
 main {
     padding: 20px;
+    /* height: 100vh; */
+    padding-bottom: 100px;
 }
 
 footer {
@@ -191,10 +193,6 @@ hr {
     align-items: center;     /* Aligns children horizontally */
 }
 
-main {
-    height: 100vh;
-}
-
 
 
 .vertical-line {
@@ -214,7 +212,7 @@ main {
     display: flex;
     justify-content: center; /* Aligns items on the line (horizontally) */
     align-items: center; /* Aligns items in the cross-axis (vertically) */
-    height: 200px; /* Or whatever height you desire */
+    /* height: 200px; Or whatever height you desire */
 }
   
 .contents {
