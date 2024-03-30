@@ -1,11 +1,71 @@
 /* Reset CSS */
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-.new-item{
+.new-item-form{
     background: #191919;
     width: 50%;
-    margin: 25%;
+    height: 40%;
 } 
+
+#new-item{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 20px;
+}
+
+#price{
+    margin-left: 5%;
+    font-size: 17px;
+}
+
+.itemdropdown {
+    border: none;
+    border-radius: 10px;
+    background-color: #333; /* Adjust the color to match the exact shade */
+    color: rgb(181, 181, 181); /* If the text should be white */
+    padding: 10px;
+    padding-left: 20px;
+    /* width: 100%; Adjust as needed */
+    outline: none;
+    font-size: 17px;
+    margin-top: 40px;
+}
+
+#list {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+}
+
+.new-item-title {
+    width: 90%;
+    margin-left: 5%;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 30px;
+    color: #35ce05;
+}
+
+.new-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.itemtextbox {
+    border: none;
+    border-radius: 10px;
+    background-color: #333; /* Adjust the color to match the exact shade */
+    color: white; /* If the text should be white */
+    padding: 10px;
+    padding-left: 20px;
+    /* width: 100%; Adjust as needed */
+    outline: none;
+    font-size: 45x;
+    margin-top: 40px;
+}
 
 * {
     margin: 0;
@@ -30,7 +90,6 @@ header {
 
 main {
     padding: 20px;
-
 }
 
 footer {

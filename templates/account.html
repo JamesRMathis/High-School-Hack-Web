@@ -37,25 +37,20 @@
 </head>
 <body>
     {% include 'header.html' %}
-    
     <main>
         <h1 class="title"></h1>
         <div class="new-item">
-            <h1 class="title"></h1>
-            <form class="new-item" action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/addItem">
-                <input class="textbox" type="text" name="new-item" placeholder="New Item">
-                <input class="textbox" type="text" name="price" placeholder="Price">
-                <select name="item-type">
+            <form class="new-item-form" action="/bb170201ef5d8f4449fd06812f53dc3d970875ca2c25abbe2bfc3683db807a81/addItem">
+                <h1 class="new-item-title">Add New Item - FLAG{1nj3ctTh3MarsD4t4b4s3}</h1>
+                <input class="itemtextbox" id="new-item" type="text" name="new-item" placeholder="New Item">
+                <input class="itemtextbox" id="price" type="text" name="price" placeholder="Price">
+                <select class="itemdropdown" name="item-type">
                     <option value="catagory">Type of Item</option>
                     <option value="weapons">Weapons</option>
                     <option value="bombs">Bombs</option>
                 </select>
-                <input class="submit" type="submit" value="Add Item">
+                <input class="submit" id="list" type="submit" value="Add Item">
             </form>
-        </div>
-        <div class="menu">
-            <div class="contents">
-            </div>
         </div>
     </main>
     
@@ -70,7 +65,7 @@
             .then(data => {
                 if (data['user']) {
                     document.querySelector('.title').innerHTML = `
-                    Welcome ${data['user'][1]} FLAG{1nj3ctTh3MarsD4t4b4s3}
+                    Welcome ${data['user'][1]}
                     `
                 }
             })
