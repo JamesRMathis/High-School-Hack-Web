@@ -34,8 +34,8 @@ Welcome to **A.S.T.R.A.** (Astronomical Security & Technological Recon Agency). 
 ### Hard Challenges
 
 #### Flag #6
-- **Prompt**: 
-- **Answer**: Use cross-site scripting (XSS) to steal the admin's cookie and gain access to another page.
+- **Prompt**: Network traffic from the site indicates that the admin sits on the forum page and refreshes every so often. As well, it looks like the forum input isn't sanitized before being stored.
+- **Answer**: Use cross-site scripting (XSS) to steal the admin's cookie and gain access to the admin panel.
 
 #### Flag #7
 - **Prompt**: Now that you're in the site, it's time to disrupt their operations. You need to get access to the `vault.txt` file. Hint: You notice something weird every time you switch to the home tab on the website.
